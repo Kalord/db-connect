@@ -65,6 +65,10 @@ private:
      * Флаг, указывающий, подключена ли база данных
      **/
     bool connect;
+    /**
+     * Флаг указывающий, была ли получена ошибка
+     **/
+    bool error;
 public:
     Database(
         const char* host, 
@@ -75,4 +79,12 @@ public:
     ~Database();
 
     bool isConnect();
+
+    bool hasError();
+    const char* getError();
+
+    /**
+     * Запрос в базу данных
+     **/
+    bool query(const char* query);
 };
