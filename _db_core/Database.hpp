@@ -1,5 +1,8 @@
 #pragma once
 
+#include <map>
+#include <iostream>
+
 #ifdef __linux__ 
     #include <mysql/mysql.h>
 #elif _WIN32
@@ -69,6 +72,10 @@ private:
      * Флаг указывающий, была ли получена ошибка
      **/
     bool error;
+    /**
+     * Проверяет, является ли строка пустой
+     */
+    bool isEmptyRow(MYSQL_ROW data);
 public:
     Database(
         const char* host, 
@@ -87,4 +94,9 @@ public:
      * Запрос в базу данных
      **/
     bool query(const char* query);
+
+    /**
+     * Получение одной строки из базы данных
+     **/
+    bool getOne(const char* query, std::map<std::string, std::string>& row);
 };

@@ -47,3 +47,33 @@ bool Database::query(const char* query)
     }
     return true;
 }
+
+/**
+ * Проверяет, является ли строка пустой
+ */
+bool Database::isEmptyRow(MYSQL_ROW data)
+{
+    return data == NULL;
+}
+
+/**
+ * Получение одной строки из базы данных
+ **/
+bool Database::getOne(const char* query, std::map<std::string, std::string>& row)
+{
+    if(!this->query(query)) return false;
+
+    MYSQL_RES* res = mysql_store_result(&this->mysql);
+    int numFields = mysql_num_fields(res);
+    MYSQL_ROW data = mysql_fetch_row(res);
+
+    if(this->isEmptyRow(data)) return false;
+
+    for(int i = 0; i < numFields; i++)
+    {
+        MYSQL_FIELD* field = mysql_fetch_field_direct(res, i);
+        row[field->name] = data[i];
+    }
+
+    return true;
+}
