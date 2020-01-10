@@ -28,17 +28,15 @@
  *      
  *      Получение строки из базы данных
  *      C++```
- *      db.getOne("SELECT * FROM post WHERE id = 1");
+ *      std::map<std::string, std::string> data;
+ *      db.getOne("SELECT * FROM post WHERE id = 1", data);
  *      ```
- *      Может возвращаться как TableDataProvider, так и 
- *      std::map<std::string, std::string>
  *      
  *      Получение нескольких строк из базы данных
  *      C++```
- *      db.getAll("SELECT * FROM post");
+ *      std::vector<std::map<std::string, std::string>> data;
+ *      db.getAll("SELECT * FROM post", data);
  *      ```
- *      Может возвращаться как std::vector из TableDataProvider, так и 
- *      std::vector из std::map<std::string, std::string>
  * 
  * @author Artem Tyutnev <artem.tyutnev.developer@gmail.com>
  **/
