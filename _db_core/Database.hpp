@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <vector>
 #include <iostream>
 
 #ifdef __linux__ 
@@ -99,4 +100,9 @@ public:
      * Получение одной строки из базы данных
      **/
     bool getOne(const char* query, std::map<std::string, std::string>& row);
+
+    /**
+     * Получение всех строк из базы данных
+     **/
+    bool getAll(const char* query, std::vector<std::map<std::string, std::string>>& row);
 };

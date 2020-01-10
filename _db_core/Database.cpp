@@ -64,6 +64,7 @@ bool Database::getOne(const char* query, std::map<std::string, std::string>& row
     if(!this->query(query)) return false;
 
     MYSQL_RES* res = mysql_store_result(&this->mysql);
+
     int numFields = mysql_num_fields(res);
     MYSQL_ROW data = mysql_fetch_row(res);
 
@@ -73,6 +74,35 @@ bool Database::getOne(const char* query, std::map<std::string, std::string>& row
     {
         MYSQL_FIELD* field = mysql_fetch_field_direct(res, i);
         row[field->name] = data[i];
+    }
+
+    return true;
+}
+
+/**
+ * Получение всех строк из базы данных
+ **/
+bool Database::getAll(const char* query, std::vector<std::map<std::string, std::string>>& row)
+{
+    if(!this->query(query)) return false;
+
+    MYSQL_RES* res = mysql_store_result(&this->mysql);
+
+    int numFields = mysql_num_fields(res);
+    int numRows = mysql_num_rows(res);
+
+    for (int i = 0; i < numRows; i++)
+    {
+        MYSQL_ROW data = mysql_fetch_row(res);
+        std::map<std::string, std::string> record;
+
+        for (int j = 0; j < numFields; j++)
+        {
+            MYSQL_FIELD* field = mysql_fetch_field_direct(res, j);
+            record[field->name] = data[j];
+        }
+
+        row.push_back(record);
     }
 
     return true;
